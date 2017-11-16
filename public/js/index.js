@@ -2,11 +2,6 @@
 
   socket.on('connect', function() {
     console.log('Connected to the server');
-
-    // socket.emit('createMessage', {
-    //   from:'ithebk',
-    //   text:'Hey how are you'
-    // });
   });
 
   socket.on('disconnect', function(){
@@ -14,5 +9,19 @@
   });
 
   socket.on('newMessage', function(message) {
-    console.log('new Message Recieved',message);
+    var li = $('<li/>');
+    li.text(`${message.from}:${message.text}`)
+    $('#messages').append(li);
+  });
+
+
+
+  $('#message-form').on('submit', function (event) {
+    event.preventDefault();
+
+    socket.emit('createMessage', {
+      from: 'User',
+      text: $('[name=message]').val()
+    }, function() {
+    });
   });

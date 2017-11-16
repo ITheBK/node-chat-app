@@ -23,10 +23,12 @@
     //Send user joined event to all other user
     socket.broadcast.emit('newMessage',generateMessage('Admin','New user joined'));
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
       console.log('createMessage',message);
       //Broadcast to all use io including sender also
       io.emit('newMessage',generateMessage(message.from, message.text));
+
+      callback({message:'This is from the server'});
     });
 
     socket.on('disconnect', () => {
