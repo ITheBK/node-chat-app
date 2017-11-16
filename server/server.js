@@ -16,15 +16,24 @@
   io.on('connection', (socket) => {
     console.log('New user connected');
 
+    socket.emit('newMessage',{
+      from:'raaju',
+      text:'Heyyy',
+      createdAt:1234
+    });
+
+    socket.on('createMessage', (message) => {
+      console.log('createMessage',message);
+    });
+
     socket.on('disconnect', () => {
       console.log('Client disconnected');
-    })
+    });
+
   });
 
 
-
   server.listen(port, () => {
-
     console.log(`Server is up on ${port}`);
 
   });
