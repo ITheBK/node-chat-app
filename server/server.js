@@ -16,22 +16,28 @@
   io.on('connection', (socket) => {
     console.log('New user connected');
 
-    //send to perticular socket
-    // socket.emit('newMessage',{
-    //   from:'raaju',
-    //   text:'Heyyy',
-    //   createdAt:1234
-    // });
+    //Send greeting message to joined user
+    socket.emit('newMessage', {
+      from: 'Admin',
+      text: 'Hey welcome to the chat app',
+      createdAt: new Date().getTime()
+    });
+
+    //Send user joined event to all other user
+    socket.broadcast.emit('newMessage', {
+      from: 'Admin',
+      text: 'A new user joined',
+      createdAt: new Date().getTime()
+    })
 
     socket.on('createMessage', (message) => {
       console.log('createMessage',message);
-
-      //Broadcast to all use io
+      //Broadcast to all use io including sender also
       io.emit('newMessage',{
         from: message.from,
         text: message.text,
         createdAt: new Date().getTime()
-      })
+      });
     });
 
     socket.on('disconnect', () => {
