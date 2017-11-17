@@ -27,8 +27,7 @@
       console.log('createMessage',message);
       //Broadcast to all use io including sender also
       io.emit('newMessage',generateMessage(message.from, message.text));
-
-      callback({message:'This is from the server'});
+      callback();
     });
 
     socket.on('createLocationMessage', (coords) => {
